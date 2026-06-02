@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIT City | National Institute of Technology</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS Variables & Reset --- */
+        :root {
+            --primary-color: #003366; /* Academic Blue */
+            --secondary-color: #FFCC00; /* Institutional Gold */
+            --accent-color: #00509E;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --white: #ffffff;
+            --light-gray: #f4f7f6;
+            --border-color: #ddd;
+            --transition: all 0.3s ease;
+            --container-width: 1300px; /* Slightly wider for grid */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { max-width: 100%; height: auto; display: block; }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+            margin: 8px auto 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary { background-color: var(--primary-color); color: var(--white); }
+        .btn-primary:hover { background-color: var(--accent-color); }
+        .btn-secondary { background-color: var(--secondary-color); color: var(--primary-color); }
+        .btn-secondary:hover { background-color: #e6b800; }
+
+        /* --- Top Bar & Nav --- */
+        .top-bar { background-color: #222; color: #ccc; font-size: 0.8rem; padding: 6px 0; }
+        .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
+        .top-links a { margin-left: 15px; font-size: 0.75rem; }
+        .top-links a:hover { color: var(--secondary-color); }
+
+        header { background-color: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .header-main { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo img { height: 50px; }
+        .logo-text h1 { font-size: 1.1rem; color: var(--primary-color); font-weight: 700; text-transform: uppercase; }
+        .logo-text span { font-size: 0.8rem; color: var(--text-light); }
+
+        .nav-wrapper { background-color: var(--primary-color); }
+        .navbar { display: flex; justify-content: space-between; align-items: center; }
+        .nav-links { display: flex; gap: 2px; }
+        .nav-links li a { color: var(--white); padding: 12px 15px; display: block; font-size: 0.85rem; font-weight: 500; text-transform: uppercase; }
+        .nav-links li a:hover, .nav-links li a.active { background-color: var(--accent-color); color: var(--secondary-color); }
+        .nav-search input { padding: 5px 8px; border: none; border-radius: 3px 0 0 3px; outline: none; }
+        .nav-search button { padding: 5px 10px; background-color: var(--secondary-color); border: none; border-radius: 0 3px 3px 0; cursor: pointer; }
+        .menu-toggle { display: none; color: var(--primary-color); font-size: 1.5rem; cursor: pointer; }
+
+        /* --- Hero & Stats --- */
+        .hero { position: relative; height: 400px; background: linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 51, 102, 0.5)), url('https://picsum.photos/seed/nitw_campus/1920/800') no-repeat center center/cover; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--white); }
+        .hero-content h2 { font-family: 'Merriweather', serif; font-size: 2.5rem; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .stats-section { background-color: var(--secondary-color); padding: 20px 0; color: var(--primary-color); }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; text-align: center; }
+        .stat-item h3 { font-size: 2rem; font-weight: 700; margin-bottom: 2px; }
+        .stat-item p { font-weight: 600; text-transform: uppercase; font-size: 0.8rem; }
+
+        /* --- Director (Compact) --- */
+        .director-section { padding: 40px 0; background: #fff; border-bottom: 1px solid #eee; }
+        .director-wrapper { display: flex; gap: 30px; align-items: center; max-width: 1000px; margin: 0 auto; }
+        .director-img { flex: 0 0 200px; border-bottom: 4px solid var(--secondary-color); border-radius: 4px; overflow: hidden; }
+        .director-content h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 10px; }
+        .director-content p { font-size: 0.95rem; color: var(--text-light); margin-bottom: 10px; }
+
+        /* --- DASHBOARD GRID LAYOUT --- */
+        .dashboard-section { padding: 40px 0; background-color: var(--light-gray); }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto auto; 
+            gap: 20px;
+        }
+
+        /* General Card Style */
+        .dash-card {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        .dash-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .card-header a { color: var(--secondary-color); font-size: 0.8rem; text-decoration: underline; }
+        .card-body { padding: 15px; flex-grow: 1; position: relative; }
+
+        /* 1. Notices (Span 1) */
+        .notice-list { padding: 0; max-height: 280px; overflow-y: auto; }
+        .notice-item { padding: 10px 15px; border-bottom: 1px solid #eee; display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; }
+        .notice-item:hover { background-color: #f9f9f9; }
+        .notice-item i { color: var(--secondary-color); margin-top: 3px; }
+        .notice-content h5 { margin-bottom: 2px; font-weight: 500; }
+        .notice-content span { font-size: 0.75rem; color: var(--text-light); }
+
+        /* 2. Tenders (Span 1) */
+        /* Same styles as notices */
+
+        /* 3. NIRF (Span 1) */
+        .nirf-badge { text-align: center; padding: 10px; }
+        .nirf-badge img { width: 80px; margin: 0 auto; }
+        .nirf-badge h4 { color: var(--primary-color); font-size: 1.8rem; margin: 5px 0; }
+        .nirf-badge p { font-size: 0.8rem; color: var(--text-light); }
+        .nirf-stats { padding: 0 15px 15px; font-size: 0.8rem; }
+        .nirf-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .progress-bg { background: #eee; height: 6px; border-radius: 3px; margin-bottom: 8px; }
+        .progress-fill { background: var(--primary-color); height: 100%; border-radius: 3px; }
+
+        /* 4. Placement (Span 1) */
+        .placement-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .p-stat-mini { text-align: center; padding: 10px; background: #f9f9f9; border-radius: 4px; }
+        .p-stat-mini strong { display: block; font-size: 1.2rem; color: var(--primary-color); }
+        .p-stat-mini span { font-size: 0.75rem; color: #666; }
+        .recruiters-icons { display: flex; justify-content: space-around; font-size: 1.5rem; color: #888; margin-top: 10px; }
+
+        /* 5. Awards (Auto Carousel, Span 2) */
+        .carousel-container { position: relative; height: 200px; overflow: hidden; }
+        .carousel-track { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
+        .carousel-slide { min-width: 100%; padding: 0 20px; display: flex; justify-content: center; align-items: center; text-align: center; }
+        .award-text h5 { color: var(--primary-color); font-size: 1.1rem; margin-bottom: 5px; }
+        .award-text p { font-size: 0.9rem; color: #555; margin-bottom: 5px; }
+        .award-text span { font-size: 0.8rem; color: var(--secondary-color); font-weight: bold; background: rgba(0,0,0,0.05); padding: 2px 8px; border-radius: 4px; }
+
+        /* 6. Research Highlights (Tabbed & Carousel, Span 2) */
+        .tab-nav { display: flex; gap: 5px; margin-bottom: 10px; border-bottom: 1px solid #eee; }
+        .tab-nav button { background: none; border: none; padding: 8px 12px; cursor: pointer; font-size: 0.8rem; font-weight: 500; color: #666; }
+        .tab-nav button.active { color: var(--primary-color); border-bottom: 2px solid var(--primary-color); }
+        .research-item { display: flex; align-items: center; gap: 15px; padding: 10px; background: #fff; border: 1px solid #eee; border-radius: 4px; margin-bottom: 10px; height: 80px; }
+        .research-icon { font-size: 1.5rem; color: #ccc; }
+        .research-info h5 { font-size: 0.95rem; margin-bottom: 3px; }
+        .research-info span { font-size: 0.75rem; color: #888; }
+
+        /* 7. Media (Span 2) */
+        .media-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; height: 100%; }
+        .media-item { position: relative; border-radius: 4px; overflow: hidden; height: 100%; }
+        .media-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.3s; }
+        .media-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 51, 102, 0.85); color: white; padding: 8px; font-size: 0.8rem; }
+
+        /* --- News & Events (Bottom) --- */
+        .news-section { padding: 40px 0; }
+        .news-wrapper { display: grid; grid-template-columns: 3fr 2fr; gap: 40px; }
+        .news-card { display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .news-date { background-color: var(--primary-color); color: var(--white); padding: 8px; border-radius: 4px; text-align: center; min-width: 60px; }
+        .news-date span { display: block; font-weight: 700; }
+        .news-date .day { font-size: 1.2rem; }
+        .events-list li { padding-left: 15px; margin-bottom: 12px; border-left: 2px solid var(--secondary-color); font-size: 0.9rem; }
+        
+        /* --- Footer & GoI --- */
+        footer { background-color: #1a1a1a; color: #ccc; padding: 40px 0 0; font-size: 0.9rem; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding-bottom: 30px; border-bottom: 1px solid #333; }
+        .footer-col h4 { color: var(--white); margin-bottom: 15px; font-size: 1rem; border-bottom: 2px solid var(--secondary-color); display: inline-block; padding-bottom: 3px; }
+        .footer-col ul li { margin-bottom: 8px; font-size: 0.85rem; }
+        .footer-col ul li a:hover { color: var(--secondary-color); }
+        .goi-bar { background-color: #fff; padding: 10px 0; border-top: 4px solid var(--secondary-color); }
+        .goi-container { display: flex; justify-content: space-between; align-items: center; }
+        .goi-left { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--text-dark); font-size: 0.8rem; }
+        .goi-right { display: flex; gap: 20px; }
+        .goi-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: #555; font-size: 0.7rem; }
+        .goi-item i { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 2px; }
+        .copyright { background-color: #111; text-align: center; padding: 10px 0; font-size: 0.75rem; color: #888; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; flex-direction: column; width: 100%; position: absolute; top: 100%; left: 0; background-color: var(--primary-color); }
+            .nav-links.active { display: flex; }
+            .menu-toggle { display: block; }
+            .header-main { flex-direction: column; gap: 10px; }
+        }
+        @media (max-width: 768px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .news-wrapper { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .goi-container { flex-direction: column; gap: 15px; text-align: center; }
+            .hero-content h2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-contact"><span><i class="fas fa-phone-alt"></i> +91 123 245 9198</span></div>
+            <div class="top-links">
+                <a href="#">Webmail</a>
+                <a href="#">A-Z Index</a>
+                <a href="#">Contact</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-main">
+                <div class="logo">
+                    <img src="https://picsum.photos/seed/emblem/100/100" alt="NIT Logo">
+                    <div class="logo-text">
+                        <h1>NIT City</h1>
+                        <span>(Institute of National Importance)</span>
+                    </div>
+                </div>
+                <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+                <button class="btn btn-secondary"><i class="fas fa-user-graduate"></i> Portal Login</button>
+            </div>
+        </div>
+        <div class="nav-wrapper">
+            <div class="container navbar">
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Research</a></li>
+                    <li><a href="#">Placements</a></li>
+                    <li><a href="#">Departments</a></li>
+                </ul>
+                <div class="nav-search">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>Excellence in Innovation</h2>
+            <a href="#" class="btn btn-secondary">Admissions Open 2024</a>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item"><h3>60+</h3><p>Years</p></div>
+                <div class="stat-item"><h3>5000+</h3><p>Students</p></div>
+                <div class="stat-item"><h3>300+</h3><p>Faculty</p></div>
+                <div class="stat-item"><h3>#14</h3><p>NIRF Rank</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Director (Compact) -->
+    <section class="director-section">
+        <div class="container">
+            <div class="director-wrapper">
+                <div class="director-img">
+                    <img src="https://picsum.photos/seed/director/300/400" alt="Director">
+                </div>
+                <div class="director-content">
+                    <h3>Director's Message</h3>
+                    <p>Welcome to NIT City. We are committed to fostering an ecosystem of research and innovation that addresses global challenges while maintaining the highest standards of technical education.</p>
+                    <a href="#" class="btn btn-primary" style="font-size: 0.8rem;">Read More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN DASHBOARD GRID (Compact Layout) -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Institute Dashboard</h2>
+            </div>
+            <div class="dashboard-grid">
+                
+                <!-- 1. Tenders -->
+                <div class="dash-card">
+                    <div class="card-header">
+                        <span><i class="fas fa-file-contract"></i> Tenders</span>
+                        <a href="#">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="notice-list">
+                            <li class="notice-item">
+                                <i class="fas fa-file-pdf"></i>
+                                <div class="notice-content">
+                                    <h5>HPC Cluster Procurement</h5>
+                                    <span>Nov 15, 2024</span>
+                                </div>
+                            </li>
+                            <li class="notice-item">
+                                <i class="fas fa-file-pdf"></i>
+                                <div class="notice-content">
+                                    <h5>Hostel Construction Phase 2</h5>
+                                    <span>Nov 12, 2024</span>
+                                </div>
+                            </li>
+                            <li class="notice-item">
+                                <i class="fas fa-file-pdf"></i>
+                                <div class="notice-content">
+                                    <h5>Campus Networking Maintenance</h5>
+                                    <span>Nov 10, 2024</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 2. Notices -->
+                <div class="dash-card">
+                    <div class="card-header">
+                        <span><i class="fas fa-bullhorn"></i> Notices</span>
+                        <a href="#">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <ul class="notice-list">
+                            <li class="notice-item">
+                                <i class="fas fa-info-circle"></i>
+                                <div class="notice-content">
+                                    <h5>Ph.D. Interview Schedule</h5>
+                                    <span>Nov 18, 2024</span>
+                                </div>
+                            </li>
+                            <li class="notice-item">
+                                <i class="fas fa-info-circle"></i>
+                                <div class="notice-content">
+                                    <h5>Diwali Holiday Notice</h5>
+                                    <span>Nov 01, 2024</span>
+                                </div>
+                            </li>
+                            <li class="notice-item">
+                                <i class="fas fa-info-circle"></i>
+                                <div class="notice-content">
+                                    <h5>Antiragging Meeting</h5>
+                                    <span>Oct 28, 2024</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 3. NIRF -->
+                <div class="dash-card">
+                    <div class="card-header">
+                        <span><i class="fas fa-chart-line"></i> NIRF Ranking</span>
+                        <a href="#">Details</a>
+                    </div>
+                    <div class="card-body" style="display: flex; flex-direction: column; justify-content: center;">
+                        <div class="nirf-badge">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/NIRF_India_Logo.png/600px-NIRF_India_Logo.png" alt="NIRF">
+                            <h4>Rank 14</h4>
+                            <p>Engineering Category</p>
+                        </div>
+                        <div class="nirf-stats">
+                            <div class="nirf-row"><span>Teaching</span><span>85.4</span></div>
+                            <div class="progress-bg"><div class="progress-fill" style="width: 85%;"></div></div>
+                            <div class="nirf-row"><span>Research</span><span>78.2</span></div>
+                            <div class="progress-bg"><div class="progress-fill" style="width: 78%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Placements -->
+                <div class="dash-card">
+                    <div class="card-header">
+                        <span><i class="fas fa-briefcase"></i> Placements</span>
+                        <a href="#">Cell</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="placement-mini-grid">
+                            <div class="p-stat-mini">
+                                <strong>95%</strong>
+                                <span>Placed</span>
+                            </div>
+                            <div class="p-stat-mini">
+                                <strong>28 LPA</strong>
+                                <span>Highest</span>
+                            </div>
+                            <div class="p-stat-mini">
+                                <strong>12 LPA</strong>
+                                <span>Average</span>
+                            </div>
+                            <div class="p-stat-mini">
+                                <strong>200+</strong>
+                                <span>Hired</span>
+                            </div>
+                        </div>
+                        <div class="recruiters-icons">
+                            <i class="fab fa-google"></i>
+                            <i class="fab fa-microsoft"></i>
+                            <i class="fab fa-amazon"></i>
+                            <i class="fab fa-apple"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Awards (Carousel - Span 2) -->
+                <div class="dash-card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <span><i class="fas fa-trophy"></i> Accolades</span>
+                        <div>
+                            <span style="font-size: 0.8rem; font-weight: 400; margin-right: 10px;">Student</span>
+                            <span style="font-size: 0.8rem; font-weight: 400;">Teacher</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="carousel-container" id="awards-carousel">
+                            <div class="carousel-track" id="awards-track">
+                                <div class="carousel-slide">
+                                    <div class="award-text">
+                                        <h5>Smart India Hackathon 2023</h5>
+                                        <p>Team "CodeBusters" - 1st Prize</p>
+                                        <span>Student Accolade</span>
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="award-text">
+                                        <h5>Young Scientist Award 2024</h5>
+                                        <p>Dr. A. Kumar (CSE) - Quantum Computing</p>
+                                        <span>Teacher Recognition</span>
+                                    </div>
+                                </div>
+                                <div class="carousel-slide">
+                                    <div class="award-text">
+                                        <h5>National Robotics Gold</h5>
+                                        <p>Best Design Prototype Award</p>
+                                        <span>Student Accolade</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Research Highlights (Tabbed Carousel - Span 2) -->
+                <div class="dash-card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <span><i class="fas fa-flask"></i> Research Highlights</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="tab-nav">
+                            <button class="active" onclick="setResearchTab('patents')">Patents</button>
+                            <button onclick="setResearchTab('publications')">Publications</button>
+                            <button onclick="setResearchTab('projects')">Sponsored Projects</button>
+                        </div>
+                        
+                        <!-- Container for Research Slides -->
+                        <div class="carousel-container" id="research-carousel" style="height: 160px;">
+                            <div class="carousel-track" id="research-track">
+                                <!-- Dynamic Content injected via JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Media (Grid - Span 2) -->
+                <div class="dash-card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <span><i class="fas fa-newspaper"></i> Media</span>
+                        <a href="#">All Media</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="media-grid">
+                            <div class="media-item">
+                                <img src="https://picsum.photos/seed/news1/300/200" alt="News">
+                                <div class="media-overlay">Campus Bulletin</div>
+                            </div>
+                            <div class="media-item">
+                                <img src="https://picsum.photos/seed/news2/300/200" alt="News">
+                                <div class="media-overlay">Monthly Newsletter</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Events -->
+    <section class="news-section">
+        <div class="container">
+            <div class="section-title"><h2>News & Events</h2></div>
+            <div class="news-wrapper">
+                <div class="latest-news">
+                    <div class="news-card">
+                        <div class="news-date"><span class="day">15</span><span class="month">NOV</span></div>
+                        <div class="news-info">
+                            <h4><a href="#">MoU signed with DRDO for Defense Research</a></h4>
+                            <p>Collaboration on cutting-edge defense technologies.</p>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-date"><span class="day">10</span><span class="month">NOV</span></div>
+                        <div class="news-info">
+                            <h4><a href="#">Placement Season 2024 Begins</a></h4>
+                            <p>Record offers in the first week of placements.</p>
+                        </div>
+                    </div>
+                    <div class="news-card">
+                        <div class="news-date"><span class="day">05</span><span class="month">NOV</span></div>
+                        <div class="news-info">
+                            <h4><a href="#">Techfest '24 Schedule Announced</a></h4>
+                            <p>Techno-management festival dates revealed.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="upcoming-events">
+                    <h3 style="margin-bottom: 15px; color: var(--primary-color);">Upcoming Events</h3>
+                    <ul class="events-list">
+                        <li><strong>AI Ethics Guest Lecture</strong><br>Nov 20 | 2:00 PM | LHC 3</li>
+                        <li><strong>Alumni Meet 2024</strong><br>Dec 10 | 10:00 AM | Convocation Hall</li>
+                        <li><strong>End Semester Exams</strong><br>Dec 15 | 9:00 AM | Various Venues</li>
+                        <li><strong>Robotics Workshop</strong><br>Jan 05 | All Day | Robotics Lab</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>About NIT</h4>
+                    <ul>
+                        <li><a href="#">Genesis & Growth</a></li>
+                        <li><a href="#">Vision & Mission</a></li>
+                        <li><a href="#">Administration</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Academics</h4>
+                    <ul>
+                        <li><a href="#">Undergraduate</a></li>
+                        <li><a href="#">Postgraduate</a></li>
+                        <li><a href="#">Doctoral</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">RTI</a></li>
+                        <li><a href="#">Tenders</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> NIT City, India</li>
+                        <li><i class="fas fa-phone"></i> +91 870 245 9198</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="goi-bar">
+        <div class="container">
+            <div class="goi-container">
+                <div class="goi-left">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg" alt="Emblem" style="height: 30px;">
+                    <span>Government of India</span>
+                </div>
+                <div class="goi-right">
+                    <a href="#" class="goi-item"><i class="fas fa-bullseye"></i>Digital India</a>
+                    <a href="#" class="goi-item"><i class="fas fa-industry"></i>Make in India</a>
+                    <a href="#" class="goi-item"><i class="fas fa-pen-fancy"></i>Skill India</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright"><p>&copy; 2024 NIT City. All Rights Reserved.</p></div>
+
+    <!-- Scripts -->
+    <script>
+        // Mobile Menu
+        const mobileMenuBtn = document.getElementById('mobile-menu');
+        const navLinks = document.getElementById('nav-links');
+        mobileMenuBtn.addEventListener('click', () => navLinks.classList.toggle('active'));
+
+        // --- 1. Awards Carousel Logic ---
+        const awardsTrack = document.getElementById('awards-track');
+        const awardsSlides = awardsTrack.children;
+        let awardsIndex = 0;
+        
+        function moveAwards() {
+            awardsIndex++;
+            if (awardsIndex >= awardsSlides.length) awardsIndex = 0;
+            awardsTrack.style.transform = `translateX(-${awardsIndex * 100}%)`;
+        }
+        setInterval(moveAwards, 4000); // Auto slide every 4s
+
+        // --- 2. Research Tabbed Carousel Logic ---
+        const researchData = {
+            'patents': [
+                { title: 'Water Purification System', tag: 'Civil Engg', desc: 'Low-cost IoT filter.' },
+                { title: 'Traffic Algorithm', tag: 'CSE', desc: 'Smart city integration.' }
+            ],
+            'publications': [
+                { title: '5G Signal Processing', tag: 'IEEE Journal', desc: 'Impact Factor 4.5.' },
+                { title: 'Nano-materials', tag: 'Nature', desc: 'Energy storage study.' }
+            ],
+            'projects': [
+                { title: 'Satellite Antenna', tag: 'ISRO', desc: 'Funding: ₹5.2 Cr.' },
+                { title: 'Smart Grid IoT', tag: 'DRDO', desc: 'Funding: ₹3.5 Cr.' }
+            ]
+        };
+
+        const researchTrack = document.getElementById('research-track');
+        let researchIndex = 0;
+        let currentTab = 'patents';
+
+        function renderResearchSlides() {
+            const items = researchData[currentTab];
+            researchTrack.innerHTML = items.map(item => `
+                <div class="carousel-slide">
+                    <div class="research-item">
+                        <div class="research-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="research-info">
+                            <h5>${item.title}</h5>
+                            <span class="tag">${item.tag}</span>
+                            <span style="font-size: 0.8rem; color:#666;">${item.desc}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            researchIndex = 0;
+            researchTrack.style.transform = `translateX(0)`;
+        }
+
+        function moveResearch() {
+            const count = researchData[currentTab].length;
+            if(count > 1) {
+                researchIndex++;
+                if (researchIndex >= count) researchIndex = 0;
+                researchTrack.style.transform = `translateX(-${researchIndex * 100}%)`;
+            }
+        }
+        setInterval(moveResearch, 5000);
+
+        function setResearchTab(tab) {
+            currentTab = tab;
+            // Update button styles
+            document.querySelectorAll('.tab-nav button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderResearchSlides();
+        }
+
+        // Initialize Research
+        renderResearchSlides();
+
+    </script>
+</body>
+</html>
